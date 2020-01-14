@@ -1,6 +1,7 @@
 require 'rest-client'
 require 'json'
 require 'pry'
+require 'base64'
 
 require_relative "./brain_breakfast_cli_api/version"
 require_relative "./brain_breakfast_cli_api/trivia_question"

@@ -31,9 +31,13 @@ class TriviaQuestion
     self.save
   end #init
 
+  def decode(text)
+    Base64.decode64(text)
+  end #decode
+
   def display
-    puts "\nCategory: #{category}\tCorrect Answer: #{correct_answer}"
-    puts "Question: #{question}\n" 
+    puts "\nCategory: #{decode(category)}\tCorrect Answer: #{decode(correct_answer)}"
+    puts "Question: #{decode(question)}\n" 
     display_choices
   end #display
 
@@ -43,12 +47,16 @@ class TriviaQuestion
     all_choices = all_choices.sort_by{|key, val| key}
 
     all_choices.each do |letter_with_ans|
-      puts "\n\t#{letter_with_ans[0]}. #{letter_with_ans[1]}"
+      puts "\n\t#{letter_with_ans[0]}. #{decode(letter_with_ans[1])}"
     end #each
   end #display_choices
 
   def display_points
-    puts "\nPoints for this question: #{points} point(s)"
+    if points.to_i == points
+      puts "\nPoints for this question: #{points.to_i} point(s)"
+    else
+      puts "\nPoints for this question: #{points} point(s)"
+    end #if
   end #display_points
 
   def add_attempt
@@ -87,8 +95,7 @@ class TriviaQuestion
   end
 
   def get_hint(incorrect_letter)
-    #incorrect_letter is what the user already guessed 
-    hint_letters = ["A","B","C","D"] - [incorrect_letter, answer_choices[:correct].keys[0]]
+    hint_letters = ["A","B","C","D"] - [incorrect_letter.upcase, answer_choices[:correct].keys[0]]
     hint = hint_letters.sample
     puts "Choice (#{hint}) is incorrect!"
   end #get_hint
