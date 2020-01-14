@@ -3,25 +3,12 @@ require 'json'
 require 'pry'
 require_relative './trivia_question'
 
-#Brain breakfast
-#Log in in the morning and select a category
-#Or have a category generated for you
-#Select specifiers (easy, hard, etc.)
-#Receive a random question
-
 #Option to receive a question or a quiz
-#Option to eliminate a wrong answer choice as a hint
 #Option to take a 10-question quiz
 #Option to see how many questions you can answer correctly in one minute
 
-#Getting the info...
-
-# def get_questions
-
-# end #get_questions
-
 class API
-  def get_question(category_num, diff)
+  def get_questions(category_num, diff)
     actual_num = category_num.to_i + 8
 
     if diff == "E"
@@ -32,38 +19,25 @@ class API
       difficulty = "hard"
     end #if diff
 
+    #response is going to store ONE question. Can change this by adding to URL.
     if actual_num > 8
-      response = RestClient.get("https://opentdb.com/api.php?amount=1&category=#{actual_num}&difficulty=#{difficulty}&type=multiple")
+      response = RestClient.get("https://opentdb.com/api.php?amount=2&category=#{actual_num}&difficulty=#{difficulty}&type=multiple")
     else
-      response = RestClient.get("https://opentdb.com/api.php?amount=1&difficulty=#{difficulty}&type=multiple")
+      response = RestClient.get("https://opentdb.com/api.php?amount=2&difficulty=#{difficulty}&type=multiple")
     end #if
 
+    #questions_array is an array of one question in JSON format
     questions_array = JSON.parse(response.body)["results"]
+
     trivia_array = [] #will store TriviaQuestion objects
 
     questions_array.each do |question_hash|
-      #binding.pry 
       t = TriviaQuestion.new(question_hash)
       trivia_array << t 
-      # answer_choices = [t.correct_answer] + t.incorrect_answers
-      # answer_choices.sort_by!{rand}
-      puts "\nCategory: #{t.category}\tCorrect Answer: #{t.correct_answer}\tDifficulty: #{t.difficulty}"
-      puts "Question: #{t.question}\n" 
-      display_choices(t.answer_choices)
     end #each
 
-    trivia_array[0]
-  end #get_question
-
-  def display_choices(choices) 
-    all_choices = {}
-    all_choices = choices[:correct].merge(choices[:incorrect])
-    all_choices = all_choices.sort_by{|key, val| key}
-
-    all_choices.each do |letter_with_ans|
-      puts "\n\t#{letter_with_ans[0]}. #{letter_with_ans[1]}"
-    end #each
-  
-  end #display_choices
+    #trivia_array[0]
+    trivia_array 
+  end #get_questions
 
 end #class

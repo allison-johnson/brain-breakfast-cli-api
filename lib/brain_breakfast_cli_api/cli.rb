@@ -20,8 +20,11 @@ class CLI
       puts "\nHere is a list of categories:"
       category_menu
       puts "Please enter a category number to see a question from that category, or type '0' for a random category."
-      the_question = find_question(category_input, diff)
-      check_answer(the_question, get_user_answer)
+      the_questions = find_questions(category_input, diff)
+      the_questions.each do |question|
+        question.display
+        check_answer(question, get_user_answer)
+      end #each
     elsif user_input.downcase == "exit"
       goodbye
     else
@@ -72,8 +75,8 @@ class CLI
     user_input 
   end #difficulty_input
 
-  def find_question(category_num, question_diff)
-    API.new.get_question(category_num, question_diff) #This needs to return a TriviaQuestion object!
+  def find_questions(category_num, question_diff)
+    API.new.get_questions(category_num, question_diff) #This needs to return a TriviaQuestion object!
   end #find_question
 
   def get_user_answer

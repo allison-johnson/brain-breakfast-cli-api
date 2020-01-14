@@ -29,6 +29,22 @@ class TriviaQuestion
     self.save
   end #init
 
+  def display
+    puts "\nCategory: #{category}\tCorrect Answer: #{correct_answer}\tDifficulty: #{difficulty}"
+    puts "Question: #{question}\n" 
+    display_choices
+  end #display
+
+  def display_choices 
+    all_choices = {}
+    all_choices = answer_choices[:correct].merge(answer_choices[:incorrect])
+    all_choices = all_choices.sort_by{|key, val| key}
+
+    all_choices.each do |letter_with_ans|
+      puts "\n\t#{letter_with_ans[0]}. #{letter_with_ans[1]}"
+    end #each
+  end #display_choices
+
   def add_attempt
     @attempts = @attempts + 1
   end #add_attempt
