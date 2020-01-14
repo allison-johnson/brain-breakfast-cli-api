@@ -21,24 +21,33 @@ require_relative './trivia_question'
 # end #get_questions
 
 class API
-  def get_question(category_num)
+  def get_question(category_num, diff)
     actual_num = category_num.to_i + 8
-    if actual_num > 8
-      response = RestClient.get("https://opentdb.com/api.php?amount=1&category=#{actual_num}&type=multiple")
+
+    if diff == "E"
+      difficulty = "easy"
+    elsif diff == "M"
+      difficulty = "medium"
     else
-      response = RestClient.get("https://opentdb.com/api.php?amount=1&type=multiple")
+      difficulty = "hard"
+    end #if diff
+
+    if actual_num > 8
+      response = RestClient.get("https://opentdb.com/api.php?amount=1&category=#{actual_num}&difficulty=#{difficulty}&type=multiple")
+    else
+      response = RestClient.get("https://opentdb.com/api.php?amount=1&difficulty=#{difficulty}&type=multiple")
     end #if
 
     questions_array = JSON.parse(response.body)["results"]
     trivia_array = [] #will store TriviaQuestion objects
 
     questions_array.each do |question_hash|
-      binding.pry 
+      #binding.pry 
       t = TriviaQuestion.new(question_hash)
       trivia_array << t 
       # answer_choices = [t.correct_answer] + t.incorrect_answers
       # answer_choices.sort_by!{rand}
-      puts "\nCategory: #{t.category}\t\tCorrect Answer: #{t.correct_answer}"
+      puts "\nCategory: #{t.category}\tCorrect Answer: #{t.correct_answer}\tDifficulty: #{t.difficulty}"
       puts "Question: #{t.question}\n" 
       display_choices(t.answer_choices)
     end #each

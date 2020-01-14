@@ -15,10 +15,12 @@ class CLI
   def main_menu_input
     user_input = gets.strip
     if user_input.downcase == "play"
+      puts "\nHow much of a challenge are you up for this morning? Select 'E'asy, 'M'edium, or 'H'ard"
+      diff = difficulty_input.upcase 
       puts "\nHere is a list of categories:"
       category_menu
       puts "Please enter a category number to see a question from that category, or type '0' for a random category."
-      the_question = find_question(category_input)
+      the_question = find_question(category_input, diff)
       check_answer(the_question, get_user_answer)
     elsif user_input.downcase == "exit"
       goodbye
@@ -61,12 +63,21 @@ class CLI
     user_input = gets.strip
   end #category_input
 
-  def find_question(category_num)
-    API.new.get_question(category_num) #This needs to return a TriviaQuestion object!
+  def difficulty_input
+    user_input = gets.strip
+    while(!['E','M','H'].include?(user_input.upcase))
+      puts "Invalid input. Please enter 'E', 'M', or 'H'."
+      user_input = gets.strip 
+    end #while 
+    user_input 
+  end #difficulty_input
+
+  def find_question(category_num, question_diff)
+    API.new.get_question(category_num, question_diff) #This needs to return a TriviaQuestion object!
   end #find_question
 
   def get_user_answer
-    puts "\nPlease select the best answer to the question"
+    puts "\nPlease select the best answer to the question."
     user_answer = gets.strip
   end
 
@@ -76,8 +87,14 @@ class CLI
       puts "Correct!"
     else
       puts "I'm sorry, that's incorrect."
+      question.add_attempt
+      question.attempts < 2 ? check_answer(question, get_user_answer) : state_answer(question)
     end #if
   end #check_answer
+
+  def state_answer(question)
+    puts "\nThe correct answer is #{question.correct_answer}."
+  end #state_answer
 
   def invalid_choice
     puts "Sorry, that wasn't one of the options."

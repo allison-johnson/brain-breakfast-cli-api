@@ -1,14 +1,16 @@
 #Model class, with ability to persist instances into a class variable
 
 class TriviaQuestion
-  attr_accessor :category, :type, :difficulty, :question, :correct_answer, :incorrect_answers, :answer_choices
+  attr_accessor :category, :type, :difficulty, :question, :correct_answer, :incorrect_answers, :answer_choices, :attempts 
   @@all = []
 
   def initialize(attr_hash)
     @category = attr_hash["category"]
     @question = attr_hash["question"]
+    @difficulty = attr_hash["difficulty"]
     @correct_answer = attr_hash["correct_answer"]
     @incorrect_answers = attr_hash["incorrect_answers"]
+    @attempts = 0
 
     @answer_choices = generate_answer_hash 
 
@@ -16,7 +18,7 @@ class TriviaQuestion
     # @answer_choices = [self.correct_answer] + self.incorrect_answers
     # answer_choices.sort_by!{rand}
     
-    binding.pry 
+    # binding.pry 
   
     # attr_hash.each do |key, value|
     #   self.send("#{key}=", value)
@@ -26,6 +28,10 @@ class TriviaQuestion
     # end #each
     self.save
   end #init
+
+  def add_attempt
+    @attempts = @attempts + 1
+  end #add_attempt
 
   def generate_answer_hash
     answer_choices = {}
