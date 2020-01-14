@@ -3,6 +3,7 @@
 class TriviaQuestion
   attr_accessor :category, :type, :difficulty, :question, :correct_answer, :incorrect_answers, :answer_choices, :attempts, :points 
   @@all = []
+  @@score = 0.0
 
   def initialize(attr_hash)
     @category = attr_hash["category"]
@@ -31,7 +32,7 @@ class TriviaQuestion
   end #init
 
   def display
-    puts "\nCategory: #{category}\tCorrect Answer: #{correct_answer}\tDifficulty: #{difficulty}"
+    puts "\nCategory: #{category}\tCorrect Answer: #{correct_answer}"
     puts "Question: #{question}\n" 
     display_choices
   end #display
@@ -99,5 +100,16 @@ class TriviaQuestion
   def self.all
     @@all 
   end #self.all
+
+  def self.score
+    @@score
+  end #self.score
+
+  def self.total_score
+    self.all.each do |question|
+      @@score += question.points  
+    end #each
+    @@score
+  end #total_score
 
 end #class

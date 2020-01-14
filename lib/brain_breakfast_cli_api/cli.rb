@@ -27,7 +27,7 @@ class CLI
       diff = difficulty_input.upcase 
       puts "\nHere is a list of categories:"
       category_menu
-      puts "Please enter a category number to see a question from that category, or type '0' for a random category."
+      print "Please enter a category number to see a question from that category, or type '0' for a random category: "
       
       the_questions = find_questions(category_input, diff)
       the_questions.each.with_index(1) do |question, index|
@@ -36,6 +36,8 @@ class CLI
         check_answer(question, get_user_answer)
         question.display_points
       end #each
+
+      display_score 
 
     elsif user_input.downcase == "exit"
       goodbye
@@ -94,7 +96,7 @@ class CLI
   end #find_question
 
   def get_user_answer
-    puts "\nPlease select the best answer to the question."
+    print "\nPlease select the best answer to the question: "
     user_answer = gets.strip
   end
 
@@ -102,15 +104,15 @@ class CLI
     #binding.pry
     if question.correct?(answer)
       puts "Correct!"
-      question.update_points(2)
+      question.update_points(2.0)
     else
       puts "I'm sorry, that's incorrect."
       question.add_attempt
-      question.update_points(-1)
+      question.update_points(-1.0)
       if question.attempts < 2 
-        puts "Care for a hint? Please type 'Y' or 'N'."
+        print "Care for a hint? Please type 'Y' or 'N': "
         if get_hint_input.upcase == "Y"
-          puts "Eliminating an incorrect answer choice..."
+          print "Eliminating an incorrect answer choice..."
           question.update_points(-0.5)
           question.get_hint(answer) 
         end #if
@@ -124,7 +126,7 @@ class CLI
   def get_hint_input
     user_input = gets.strip
     while(!['Y','N'].include?(user_input.upcase))
-      puts "Invalid input. Please enter 'Y' or 'N'."
+      print "Invalid input. Please enter 'Y' or 'N': "
       user_input = gets.strip 
     end #while 
     user_input 
@@ -133,6 +135,10 @@ class CLI
   def state_answer(question)
     puts "\nThe correct answer is (#{question.answer_choices[:correct].keys[0]}) #{question.correct_answer}."
   end #state_answer
+
+  def display_score
+    puts "TOTAL SCORE: #{TriviaQuestion.total_score}"
+  end #display_score 
 
   def invalid_choice
     puts "Sorry, that wasn't one of the options."
