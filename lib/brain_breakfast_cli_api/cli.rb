@@ -14,23 +14,37 @@ class CLI
 
   def main_menu_input
     user_input = gets.strip
+
     if user_input.downcase == "play"
+      puts "Get ready for a 10-question quiz. You'll receive points for each question as follows:"
+      puts %Q(
+        +2 points - Correct answer
+        -1 point - Each incorrect answer
+        -0.5 points - Hint received
+        MAXIMUM SCORE: 20 points
+      )
       puts "\nHow much of a challenge are you up for this morning? Select 'E'asy, 'M'edium, or 'H'ard"
       diff = difficulty_input.upcase 
       puts "\nHere is a list of categories:"
       category_menu
       puts "Please enter a category number to see a question from that category, or type '0' for a random category."
+      
       the_questions = find_questions(category_input, diff)
-      the_questions.each do |question|
+      the_questions.each.with_index(1) do |question, index|
+        puts "**************************************\nQuestion number #{index}:"
         question.display
         check_answer(question, get_user_answer)
+        question.display_points
       end #each
+
     elsif user_input.downcase == "exit"
       goodbye
+
     else
       invalid_choice
       main_menu_options
     end #if
+
   end #main_menu_input
 
   def category_menu
@@ -88,13 +102,16 @@ class CLI
     #binding.pry
     if question.correct?(answer)
       puts "Correct!"
+      question.update_points(2)
     else
       puts "I'm sorry, that's incorrect."
       question.add_attempt
+      question.update_points(-1)
       if question.attempts < 2 
         puts "Care for a hint? Please type 'Y' or 'N'."
         if get_hint_input.upcase == "Y"
           puts "Eliminating an incorrect answer choice..."
+          question.update_points(-0.5)
           question.get_hint(answer) 
         end #if
         check_answer(question, get_user_answer)

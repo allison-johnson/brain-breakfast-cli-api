@@ -1,7 +1,7 @@
 #Model class, with ability to persist instances into a class variable
 
 class TriviaQuestion
-  attr_accessor :category, :type, :difficulty, :question, :correct_answer, :incorrect_answers, :answer_choices, :attempts 
+  attr_accessor :category, :type, :difficulty, :question, :correct_answer, :incorrect_answers, :answer_choices, :attempts, :points 
   @@all = []
 
   def initialize(attr_hash)
@@ -11,6 +11,7 @@ class TriviaQuestion
     @correct_answer = attr_hash["correct_answer"]
     @incorrect_answers = attr_hash["incorrect_answers"]
     @attempts = 0
+    @points = 0 
 
     @answer_choices = generate_answer_hash 
 
@@ -45,9 +46,17 @@ class TriviaQuestion
     end #each
   end #display_choices
 
+  def display_points
+    puts "\nPoints for this question: #{points} point(s)"
+  end #display_points
+
   def add_attempt
     @attempts = @attempts + 1
   end #add_attempt
+
+  def update_points(n)
+    @points += n
+  end #update_score
 
   def generate_answer_hash
     answer_choices = {}

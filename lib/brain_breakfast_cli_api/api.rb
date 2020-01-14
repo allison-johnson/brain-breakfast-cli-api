@@ -26,17 +26,17 @@ class API
       response = RestClient.get("https://opentdb.com/api.php?amount=2&difficulty=#{difficulty}&type=multiple")
     end #if
 
-    #questions_array is an array of one question in JSON format
+    #questions_array is an array questions in JSON format
     questions_array = JSON.parse(response.body)["results"]
 
-    trivia_array = [] #will store TriviaQuestion objects
+    #will store TriviaQuestion objects
+    trivia_array = [] 
 
     questions_array.each do |question_hash|
       t = TriviaQuestion.new(question_hash)
       trivia_array << t 
     end #each
 
-    #trivia_array[0]
     trivia_array 
   end #get_questions
 
