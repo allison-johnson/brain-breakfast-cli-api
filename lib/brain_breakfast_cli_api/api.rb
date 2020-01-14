@@ -46,7 +46,7 @@ class API
     trivia_array[0]
   end #get_question
 
-  def display_choices(choices) #Refactor with choices = answer_choices hash
+  def display_choices(choices) 
     all_choices = {}
     all_choices = choices[:correct].merge(choices[:incorrect])
     all_choices = all_choices.sort_by{|key, val| key}
@@ -55,12 +55,6 @@ class API
       puts "\n\t#{letter_with_ans[0]}. #{letter_with_ans[1]}"
     end #each
   
-    # binding.pry
-
-    # puts "\n\tA. #{choices[0]}"
-    # puts "\tB. #{choices[1]}"
-    # puts "\tC. #{choices[2]}"
-    # puts "\tD. #{choices[3]}"
   end #display_choices
 
 end #class

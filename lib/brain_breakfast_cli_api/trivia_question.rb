@@ -47,7 +47,7 @@ class TriviaQuestion
   end #generate_answer_hash
 
   def correct?(answer)
-    if answer.upcase == correct_answer
+    if answer.upcase == answer_choices[:correct].keys[0]
       true 
     else
       false
