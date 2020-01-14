@@ -60,6 +60,13 @@ class TriviaQuestion
     end
   end
 
+  def get_hint(incorrect_letter)
+    #incorrect_letter is what the user already guessed 
+    hint_letters = ["A","B","C","D"] - [incorrect_letter, answer_choices[:correct].keys[0]]
+    hint = hint_letters.sample
+    puts "Choice (#{hint}) is incorrect!"
+  end #get_hint
+
   def save
     @@all << self 
   end #save

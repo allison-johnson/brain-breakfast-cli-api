@@ -88,12 +88,30 @@ class CLI
     else
       puts "I'm sorry, that's incorrect."
       question.add_attempt
-      question.attempts < 2 ? check_answer(question, get_user_answer) : state_answer(question)
+      if question.attempts < 2 
+        puts "Care for a hint? Please type 'Y' or 'N'."
+        if get_hint_input.upcase == "Y"
+          puts "Eliminating an incorrect answer choice..."
+          question.get_hint(answer) 
+        end #if
+        check_answer(question, get_user_answer)
+      else
+        state_answer(question)
+      end #if
     end #if
   end #check_answer
 
+  def get_hint_input
+    user_input = gets.strip
+    while(!['Y','N'].include?(user_input.upcase))
+      puts "Invalid input. Please enter 'Y' or 'N'."
+      user_input = gets.strip 
+    end #while 
+    user_input 
+  end #get_hint_input
+
   def state_answer(question)
-    puts "\nThe correct answer is #{question.correct_answer}."
+    puts "\nThe correct answer is (#{question.answer_choices[:correct].keys[0]}) #{question.correct_answer}."
   end #state_answer
 
   def invalid_choice
