@@ -23,7 +23,7 @@ class CLI
         -0.5 points - Hint received
         MAXIMUM SCORE: 20 points
       )
-      puts "\nHow much of a challenge are you up for this morning? Select 'E'asy, 'M'edium, or 'H'ard"
+      print "How much of a challenge are you up for this morning? Select 'E'asy, 'M'edium, or 'H'ard: "
       diff = difficulty_input.upcase 
       puts "\nHere is a list of categories:"
       category_menu
@@ -137,7 +137,7 @@ class CLI
   end #state_answer
 
   def display_score
-    puts "TOTAL SCORE: #{TriviaQuestion.total_score}"
+    puts "\nTOTAL SCORE: #{TriviaQuestion.total_score}"
   end #display_score 
 
   def invalid_choice

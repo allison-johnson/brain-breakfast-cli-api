@@ -109,7 +109,7 @@ class TriviaQuestion
     self.all.each do |question|
       @@score += question.points  
     end #each
-    @@score
+    @@score.to_i == @@score ? @@score.to_i : @@score
   end #total_score
 
 end #class
