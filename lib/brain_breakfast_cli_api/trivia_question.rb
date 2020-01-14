@@ -9,9 +9,15 @@ class TriviaQuestion
     @question = attr_hash["question"]
     @correct_answer = attr_hash["correct_answer"]
     @incorrect_answers = attr_hash["incorrect_answers"]
-    @answer_choices = [self.correct_answer] + self.incorrect_answers
-    answer_choices.sort_by!{rand}
+
+    @answer_choices = generate_answer_hash 
+
+    # Creating an answer choices ARRAY - problem is that letters are not stored
+    # @answer_choices = [self.correct_answer] + self.incorrect_answers
+    # answer_choices.sort_by!{rand}
+    
     binding.pry 
+  
     # attr_hash.each do |key, value|
     #   self.send("#{key}=", value)
     #   binding.pry 
@@ -20,6 +26,25 @@ class TriviaQuestion
     # end #each
     self.save
   end #init
+
+  def generate_answer_hash
+    answer_choices = {}
+
+    letters = ["A", "B", "C", "D"]
+    correct_letter = letters.sample
+    letters = letters - [correct_letter]
+
+    answer_choices[:correct] = {correct_letter => correct_answer}
+    answer_choices[:incorrect] = {}
+
+    incorrect_answers.each do |ans|
+      letter = letters.sample
+      letters = letters - [letter]
+      answer_choices[:incorrect][letter] = ans 
+    end #each
+
+    answer_choices
+  end #generate_answer_hash
 
   def correct?(answer)
     if answer.upcase == correct_answer

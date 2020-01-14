@@ -71,7 +71,7 @@ class CLI
   end
 
   def check_answer(question, answer)
-    binding.pry
+    #binding.pry
     if question.correct?(answer)
       puts "Correct!"
     else
