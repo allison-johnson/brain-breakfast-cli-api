@@ -18,7 +18,8 @@ class CLI
       puts "\nHere is a list of categories:"
       category_menu
       puts "Please enter a category number to see a question from that category, or type '0' for a random category."
-      category_input
+      the_question = find_question(category_input)
+      check_answer(the_question, get_user_answer)
     elsif user_input.downcase == "exit"
       goodbye
     else
@@ -58,8 +59,25 @@ class CLI
 
   def category_input
     user_input = gets.strip
-    API.new.get_question(user_input)
   end #category_input
+
+  def find_question(category_num)
+    API.new.get_question(category_num) #This needs to return a TriviaQuestion object!
+  end #find_question
+
+  def get_user_answer
+    puts "\nPlease select the best answer to the question"
+    user_answer = gets.strip
+  end
+
+  def check_answer(question, answer)
+    binding.pry
+    if question.correct?(answer)
+      puts "Correct!"
+    else
+      puts "I'm sorry, that's incorrect."
+    end #if
+  end #check_answer
 
   def invalid_choice
     puts "Sorry, that wasn't one of the options."
