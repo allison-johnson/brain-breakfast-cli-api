@@ -2,13 +2,25 @@ class CLI
 
   def start
     system('clear')
-    puts "Welcome to the Brain Breakfast API!\n"
+    puts "Welcome to the Brain Breakfast API!"
+    puts %Q(
+            \(   \) \(    \)  \)
+             \) \(   \)  \(  \(
+             \( \)  \(    \) \)
+             _____________
+            <_____________> ___
+            |             |/ _ \\
+            |               | | |
+            |               |_| |
+         ___|             |\\___/
+        /    \\___________/    \\
+        \\_____________________/
+    )
     main_menu_options
   end #start
 
   def main_menu_options
-    puts "Type 'play' to enjoy some trivia questions with your breakfast."
-    puts "Type 'exit' to exit the program."
+    print "Type 'play' to enjoy some trivia questions with your breakfast, or type 'exit': "
     main_menu_input
   end #main_menu_options 
 
@@ -16,12 +28,12 @@ class CLI
     user_input = gets.strip
 
     if user_input.downcase == "play"
-      puts "Get ready for a 10-question quiz. You'll receive points for each question as follows:"
+      puts "\nGet ready for a 5-question quiz. You'll receive points for each question as follows:"
       puts %Q(
         +2 points - Correct answer
         -1 point - Each incorrect answer
         -0.5 points - Hint received
-        MAXIMUM SCORE: 20 points
+        MAXIMUM SCORE: 10 points
       )
       print "How much of a challenge are you up for this morning? Select 'E'asy, 'M'edium, or 'H'ard: "
       diff = difficulty_input.upcase 
@@ -80,12 +92,17 @@ class CLI
 
   def category_input
     user_input = gets.strip
+    while(user_input.to_i < 1 || user_input.to_i > 24)
+      print "Invalid input. Please enter a valid category number: "
+      user_input = gets.strip 
+    end #while
+    user_input 
   end #category_input
 
   def difficulty_input
     user_input = gets.strip
     while(!['E','M','H'].include?(user_input.upcase))
-      puts "Invalid input. Please enter 'E', 'M', or 'H'."
+      print "Invalid input. Please enter 'E', 'M', or 'H': "
       user_input = gets.strip 
     end #while 
     user_input 
@@ -118,7 +135,7 @@ class CLI
         end #if
         check_answer(question, get_user_answer)
       else
-        state_answer(question)
+        question.state_answer 
       end #if
     end #if
   end #check_answer
@@ -131,10 +148,6 @@ class CLI
     end #while 
     user_input 
   end #get_hint_input
-
-  def state_answer(question)
-    puts "\nThe correct answer is (#{question.answer_choices[:correct].keys[0]}) #{question.correct_answer}."
-  end #state_answer
 
   def display_score
     puts "\nTOTAL SCORE: #{TriviaQuestion.total_score}"

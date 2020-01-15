@@ -36,8 +36,8 @@ class TriviaQuestion
   end #decode
 
   def display
-    puts "\nCategory: #{decode(category)}\tCorrect Answer: #{decode(correct_answer)}"
-    puts "Question: #{decode(question)}\n" 
+    puts "Category: #{decode(category)}"
+    puts "\nQuestion: #{decode(question)}\n" 
     display_choices
   end #display
 
@@ -99,6 +99,10 @@ class TriviaQuestion
     hint = hint_letters.sample
     puts "Choice (#{hint}) is incorrect!"
   end #get_hint
+
+  def state_answer
+    puts "\nThe correct answer is (#{answer_choices[:correct].keys[0]}) #{decode(correct_answer)}."
+  end #state_answer
 
   def save
     @@all << self 

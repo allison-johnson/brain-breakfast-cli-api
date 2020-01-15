@@ -21,9 +21,9 @@ class API
 
     #response is going to store ONE question. Can change this by adding to URL.
     if actual_num > 8
-      response = RestClient.get("https://opentdb.com/api.php?amount=2&encode=base64&category=#{actual_num}&difficulty=#{difficulty}&type=multiple")
+      response = RestClient.get("https://opentdb.com/api.php?amount=5&encode=base64&category=#{actual_num}&difficulty=#{difficulty}&type=multiple")
     else
-      response = RestClient.get("https://opentdb.com/api.php?amount=2&encode=base64&difficulty=#{difficulty}&type=multiple")
+      response = RestClient.get("https://opentdb.com/api.php?amount=5&encode=base64&difficulty=#{difficulty}&type=multiple")
     end #if
 
     #questions_array is an array questions in JSON format
