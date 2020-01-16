@@ -19,19 +19,34 @@ class API
       difficulty = "hard"
     end #if diff
 
-    #response is going to store ONE question. Can change this by adding to URL.
+    #response is going to store FIVE questions. Can change this by in URL.
     if actual_num > 8
       response = RestClient.get("https://opentdb.com/api.php?amount=5&encode=base64&category=#{actual_num}&difficulty=#{difficulty}&type=multiple")
     else
       response = RestClient.get("https://opentdb.com/api.php?amount=5&encode=base64&difficulty=#{difficulty}&type=multiple")
     end #if
 
-    puts response
-    #questions_array is an array questions in JSON format
-    questions_array = JSON.parse(response.body)["results"]
     response_code = JSON.parse(response.body)["response_code"].to_i
-    
-    binding.pry
+
+    if response_code == 0 #Indicates a valid request to the API
+      #questions_array is an array questions in JSON format
+      questions_array = JSON.parse(response.body)["results"]
+
+    elsif response_code == 1 #Indicates that there were not enough questions of that category/difficulty
+      category_info = RestClient.get("https://opentdb.com/api_count.php?category=#{actual_num}")
+      category_question_counts = JSON.parse(category_info.body)["category_question_count"]
+      max_num = category_question_counts["total_#{difficulty}_question_count"].to_i
+      remainder = 5 - max_num 
+
+      #Get the maximum number of questions of that category/difficulty from the API and store them in questions_array
+      response_1 = RestClient.get("https://opentdb.com/api.php?amount=#{max_num}&encode=base64&category=#{actual_num}&difficulty=#{difficulty}&type=multiple")
+      questions_array = JSON.parse(response_1.body)["results"]
+
+      #Get the remainder of the questions from a random category and add those to questions_array
+      response_2 = RestClient.get("https://opentdb.com/api.php?amount=#{remainder}&encode=base64&difficulty=#{difficulty}&type=multiple")
+      questions_array += JSON.parse(response_2.body)["results"]
+
+    end #if
 
     #will store TriviaQuestion objects
     trivia_array = [] 
