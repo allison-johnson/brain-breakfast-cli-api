@@ -26,8 +26,12 @@ class API
       response = RestClient.get("https://opentdb.com/api.php?amount=5&encode=base64&difficulty=#{difficulty}&type=multiple")
     end #if
 
+    puts response
     #questions_array is an array questions in JSON format
     questions_array = JSON.parse(response.body)["results"]
+    response_code = JSON.parse(response.body)["response_code"].to_i
+    
+    binding.pry
 
     #will store TriviaQuestion objects
     trivia_array = [] 
