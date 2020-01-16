@@ -58,6 +58,7 @@ class CLI
       thank_you
       sleep(1)
       puts ""
+      TriviaQuestion.reset 
       main_menu_options 
 
     elsif user_input.downcase == "exit"
@@ -144,7 +145,7 @@ class CLI
         print "Care for a hint? Please type 'Y' or 'N': "
         if get_hint_input.upcase == "Y"
           print "Eliminating an incorrect answer choice..."
-          sleep(2)
+          sleep(1)
           question.update_points(-0.5)
           question.get_hint(answer) 
         end #if

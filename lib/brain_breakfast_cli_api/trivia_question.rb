@@ -106,6 +106,11 @@ class TriviaQuestion
     @@all 
   end #self.all
 
+  def self.reset
+    @@all.clear 
+    @@score = 0.0
+  end #self.reset
+
   def self.score
     @@score
   end #self.score
