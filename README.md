@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Navigate into the correct folder and then run `ruby bin/run.rb` in order to play the game from the command line.
 
 ## Development
 
@@ -30,7 +30,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/brain_breakfast_cli_api.
+Bug reports and pull requests are welcome on GitHub at https://github.com/allison-johnson/brain_breakfast_cli_api.
 
 ## License
 

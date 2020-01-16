@@ -101,7 +101,7 @@ class CLI
 
   def category_input
     user_input = gets.strip
-    while(user_input.to_i < 0 || user_input.to_i > 24)
+    while((user_input.to_i < 0 || user_input.to_i > 24) || (user_input.to_i.to_s != user_input))
       print "Invalid input. Please enter a valid category number: "
       user_input = gets.strip 
     end #while
