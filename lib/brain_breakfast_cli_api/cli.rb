@@ -14,7 +14,7 @@ class CLI
             |               |_| |
          ___|             |\\___/
         /    \\___________/    \\
-        \\_____________________/
+        \\_____________________/    [nosig]
     )
     main_menu_options
   end #start
@@ -35,6 +35,7 @@ class CLI
         -0.5 points - Hint received
         MAXIMUM SCORE: 10 points
       )
+      sleep(1)
       print "How much of a challenge are you up for this morning? Select 'E'asy, 'M'edium, or 'H'ard: "
       diff = difficulty_input.upcase 
       puts "\nHere is a list of categories:"
@@ -44,13 +45,19 @@ class CLI
       the_questions = find_questions(category_input, diff)
       the_questions.each.with_index(1) do |question, index|
         puts "**************************************\nQuestion Number #{index}"
+        sleep(1)
         question.display
         check_answer(question, get_user_answer)
+        sleep(1)
         question.display_points
       end #each
 
+      sleep(1)
       display_score 
+      sleep(1)
       thank_you
+      sleep(1)
+      puts ""
       main_menu_options 
 
     elsif user_input.downcase == "exit"
@@ -137,6 +144,7 @@ class CLI
         print "Care for a hint? Please type 'Y' or 'N': "
         if get_hint_input.upcase == "Y"
           print "Eliminating an incorrect answer choice..."
+          sleep(2)
           question.update_points(-0.5)
           question.get_hint(answer) 
         end #if

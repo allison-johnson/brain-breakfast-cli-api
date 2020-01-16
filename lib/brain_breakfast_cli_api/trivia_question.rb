@@ -15,12 +15,6 @@ class TriviaQuestion
     @points = 0 
 
     @answer_choices = generate_answer_hash 
-
-    # Creating an answer choices ARRAY - problem is that letters are not stored
-    # @answer_choices = [self.correct_answer] + self.incorrect_answers
-    # answer_choices.sort_by!{rand}
-    
-    # binding.pry 
   
     # attr_hash.each do |key, value|
     #   self.send("#{key}=", value)

@@ -3,10 +3,6 @@ require 'json'
 require 'pry'
 require_relative './trivia_question'
 
-#Option to receive a question or a quiz
-#Option to take a 10-question quiz
-#Option to see how many questions you can answer correctly in one minute
-
 class API
   def get_questions(category_num, diff)
     actual_num = category_num.to_i + 8
@@ -19,7 +15,7 @@ class API
       difficulty = "hard"
     end #if diff
 
-    #response is going to store FIVE questions. Can change this by in URL.
+    #response is going to store 5 questions. Can change this in URL.(Consider having user choose the number...)
     if actual_num > 8
       response = RestClient.get("https://opentdb.com/api.php?amount=5&encode=base64&category=#{actual_num}&difficulty=#{difficulty}&type=multiple")
     else
@@ -33,6 +29,7 @@ class API
       questions_array = JSON.parse(response.body)["results"]
 
     elsif response_code == 1 #Indicates that there were not enough questions of that category/difficulty
+      puts "\nNot enough questions available; your quiz will also include questions from random categories...\n"
       category_info = RestClient.get("https://opentdb.com/api_count.php?category=#{actual_num}")
       category_question_counts = JSON.parse(category_info.body)["category_question_count"]
       max_num = category_question_counts["total_#{difficulty}_question_count"].to_i
