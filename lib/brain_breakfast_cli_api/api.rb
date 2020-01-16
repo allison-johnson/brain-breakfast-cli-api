@@ -15,7 +15,7 @@ class API
       difficulty = "hard"
     end #if diff
 
-    #response is going to store 5 questions. Can change this in URL.(Consider having user choose the number...)
+    #response is going to store 5 questions. Can change this in URL.
     if actual_num > 8
       response = RestClient.get("https://opentdb.com/api.php?amount=5&encode=base64&category=#{actual_num}&difficulty=#{difficulty}&type=multiple")
     else

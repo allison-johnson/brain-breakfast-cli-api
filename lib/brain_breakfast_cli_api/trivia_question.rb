@@ -14,7 +14,7 @@ class TriviaQuestion
     @attempts = 0
     @points = 0 
 
-    @answer_choices = generate_answer_hash 
+    @answer_choices = generate_answer_hash  
   
     # attr_hash.each do |key, value|
     #   self.send("#{key}=", value)
@@ -118,3 +118,4 @@ class TriviaQuestion
   end #total_score
 
 end #class
+
