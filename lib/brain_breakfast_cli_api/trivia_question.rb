@@ -2,6 +2,7 @@
 
 class TriviaQuestion
   #New comment
+  #New comment 2
   attr_accessor :category, :type, :difficulty, :question, :correct_answer, :incorrect_answers, :answer_choices, :attempts, :points 
   @@all = []
   @@score = 0.0
