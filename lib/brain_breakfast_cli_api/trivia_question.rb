@@ -1,6 +1,7 @@
 #Model class, with ability to persist instances into a class variable
 
 class TriviaQuestion
+  #New comment
   attr_accessor :category, :type, :difficulty, :question, :correct_answer, :incorrect_answers, :answer_choices, :attempts, :points 
   @@all = []
   @@score = 0.0
@@ -121,6 +122,14 @@ class TriviaQuestion
     end #each
     @@score.to_i == @@score ? @@score.to_i : @@score
   end #total_score
+
+  def hello(name)
+    if name == "Madeline"
+      puts "Hi, friend!"
+    else
+      puts "Go away."
+    end #if
+  end #hello
 
 end #class
 
